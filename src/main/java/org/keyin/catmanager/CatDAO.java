@@ -1,6 +1,7 @@
 package org.keyin.catmanager;
 
 import org.keyin.database.DatabaseConnection;
+import org.w3c.dom.ls.LSOutput;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -63,6 +64,22 @@ public class CatDAO {
         } catch (SQLException e) {
             e.printStackTrace();
 
+        }
+    }
+
+    public void printAllCatsInSystem() throws SQLException {
+        String sql = "SELECT * FROM cat";
+        try (Connection connection = DatabaseConnection.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
+                System.out.println("Cat ID: " + resultSet.getInt("catid") +
+                        ", Name: " + resultSet.getString("catname") +
+                        ", Breed: " + resultSet.getString("catbreed") +
+                        ", Age: " + resultSet.getInt("catage") +
+                        ", Color: " + resultSet.getString("catcolor") +
+                        ", Gender: " + resultSet.getString("catgender"));
+            }
         }
     }
 
